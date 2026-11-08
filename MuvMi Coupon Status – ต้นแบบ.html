@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MuvMi Coupon Status – ต้นแบบ</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#eef1f6;--card:#fff;--ink:#14213d;--mute:#667085;--brand:#1659e0;--blue:#1659e0;--blue-t:#e6eefb;--gray:#c4c9d2;--gray-t:#f2f3f5;--line:#e4e7ec;--field:#b9c9ea;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1020;--card:#161d33;--ink:#eef1f8;--mute:#98a2b3;--blue:#6ea0ff;--blue-t:#18274d;--gray:#3a4256;--gray-t:#1b2238;--line:#27304a;--field:#3a5088;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1020;--card:#161d33;--ink:#eef1f8;--mute:#98a2b3;--blue:#6ea0ff;--blue-t:#18274d;--gray:#3a4256;--gray-t:#1b2238;--line:#27304a;--field:#3a5088;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Sarabun','Noto Sans Thai',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.45}
+.wrap{max-width:430px;margin:0 auto;padding:12px}
+h1{font-size:16px;margin:2px 0}
+.sub{color:var(--mute);font-size:13px;margin:0 0 10px}
+.steps{display:flex;gap:6px;margin-bottom:10px}
+.steps span{flex:1;text-align:center;font-size:12px;padding:5px 4px;border-radius:999px;background:var(--gray-t);color:var(--mute);border:1px solid var(--line)}
+.steps span.on{background:var(--blue-t);color:var(--blue);border-color:var(--blue);font-weight:600}
+.phone{width:390px;max-width:100%;height:min(834px,calc(100dvh - 150px));min-height:560px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:36px;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.hd{flex:none;background:var(--brand);color:#fff;text-align:center;font-weight:600;font-size:17px;padding:15px;position:relative}
+.hd button{position:absolute;left:8px;top:9px;background:none;border:0;color:#fff;font-size:26px;line-height:1;cursor:pointer;padding:2px 10px}
+.body{flex:1;overflow-y:auto}
+.home{flex:none;height:22px;display:flex;align-items:center;justify-content:center}
+.home i{width:120px;height:4px;border-radius:2px;background:var(--gray)}
+.mute{color:var(--mute)}
+.stops{display:flex;gap:10px;padding:14px 16px 4px}
+.rail{display:flex;flex-direction:column;align-items:center;padding-top:5px}
+.rail u{width:12px;height:12px;border-radius:50%;border:2px solid var(--blue);display:block}
+.rail u+u{background:var(--blue)}
+.rail s{width:2px;height:22px;background:var(--blue);display:block}
+.stops div.t{flex:1;font-size:13px}
+.stops div.t p{margin:0;height:34px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stops div.t b{color:var(--mute);font-weight:400;margin-right:8px}
+.art{text-align:center;font-size:40px;padding:6px 0 0}
+.type{text-align:center;padding:2px 0 14px}
+.type .mute{font-size:12px}
+.pillv{display:inline-flex;align-items:center;gap:8px;margin-top:6px}
+.pillv span{border:1.5px solid var(--blue);color:var(--blue);border-radius:999px;padding:3px 18px;font-size:13px;font-weight:600}
+.pillv i{width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;font-size:12px;font-style:normal;display:inline-flex;align-items:center;justify-content:center}
+.pax{background:var(--gray-t);padding:14px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:600;margin-top:4px}
+.stepper{display:flex;align-items:center;gap:14px;font-weight:700;color:var(--blue)}
+.stepper button{width:30px;height:30px;border-radius:50%;border:0;font-size:20px;line-height:1;cursor:pointer;background:var(--blue);color:#fff;display:inline-flex;align-items:center;justify-content:center}
+.stepper button:disabled{background:var(--gray);cursor:not-allowed}
+:root[data-theme="dark"] .stepper button:not(:disabled){color:#0b1020}
+.chk{display:flex;align-items:center;gap:10px;margin:10px 16px;padding:12px 14px;background:var(--gray-t);border-radius:10px;font-weight:600;cursor:pointer}
+.chk i{width:20px;height:20px;border:2px solid var(--mute);border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-style:normal;color:#fff}
+.chk.on i{background:var(--blue);border-color:var(--blue)}
+.line{display:flex;justify-content:space-between;align-items:center;padding:14px 16px}
+.line>span:last-child{display:inline-flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--blue);background:transparent;color:var(--blue);border-radius:999px;padding:5px 14px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.btn i{width:18px;height:18px;border-radius:50%;background:var(--blue);color:var(--card);font-style:normal;font-size:14px;line-height:1;display:inline-flex;align-items:center;justify-content:center}
+.btn.add{background:var(--blue-t)}
+.x{border:0;background:var(--blue);color:var(--card);width:18px;height:18px;border-radius:50%;font-size:10px;line-height:1;margin-left:8px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.price{background:var(--blue-t);color:var(--blue);font-weight:700;border-radius:8px;padding:2px 10px}
+.chip{display:inline-flex;align-items:center;border:2px solid var(--blue);background:var(--blue-t);color:var(--blue);border-radius:999px;padding:2px 10px;font-weight:700;font-size:13px}
+.link{background:none;border:0;color:var(--blue);font:inherit;font-size:13px;cursor:pointer;text-decoration:underline;padding:2px 4px}
+.cta{flex:none;margin:8px 16px 8px;padding:14px;border:0;border-radius:999px;background:var(--gray);color:var(--mute);font:inherit;font-weight:700;font-size:16px;cursor:pointer}
+.ico{width:64px;height:64px;border-radius:50%;background:var(--blue-t);margin:20px auto 10px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.pad{padding:4px 16px 14px}
+.in{display:flex;gap:10px;margin-top:8px}
+.in input{flex:1;min-width:0;border:1px solid var(--field);border-radius:8px;padding:10px 12px;font:inherit;background:var(--card);color:var(--ink);text-transform:uppercase}
+.in button{border:0;border-radius:8px;padding:0 18px;font:inherit;font-weight:700;background:var(--gray);color:var(--mute);cursor:not-allowed}
+.in button.on{background:var(--brand);color:#fff;cursor:pointer}
+:root[data-theme="dark"] .in button.on{color:#0b1020}
+.sec{background:var(--blue-t);padding:11px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:600}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--mute);padding:10px 16px 0}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;border:2px solid;vertical-align:-2px;margin-right:4px}
+.list{padding:10px 16px 16px}
+.cp{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border:2px solid;border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.cp.ok{border-color:var(--blue);background:var(--card)}
+.cp.off{border-color:var(--gray);background:var(--gray-t);color:var(--mute);cursor:not-allowed}
+.cp .t{font-weight:700}
+.cp.ok .t{color:var(--ink)}
+.cp small{display:block;font-size:12px}
+.badge{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px;margin-bottom:4px}
+.ok .badge{background:var(--blue-t);color:var(--blue)}
+.off .badge{background:var(--gray);color:var(--ink)}
+.use{flex:none;border:0;border-radius:999px;background:var(--brand);color:#fff;font:inherit;font-weight:700;padding:6px 20px;cursor:pointer}
+:root[data-theme="dark"] .use{color:#0b1020}
+.use.sel{background:var(--blue-t);color:var(--blue);border:2px solid var(--blue);padding:4px 16px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90%;text-align:center;z-index:9}
+.toast.show{opacity:1}
+.foot{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:12px;color:var(--mute)}
+@media (max-width:430px){.wrap{padding:0}h1,.sub,.steps{display:none}.phone{width:100%;height:calc(100dvh - 34px);min-height:0;border-radius:0;border:0}.foot{padding:0 12px;margin-top:6px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="steps" id="steps"></div>
+  <div class="phone" id="app"></div>
+  <div class="foot"><span>MuvMi (ต้นแบบ)</span><button class="link" id="reset">เริ่มใหม่</button></div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+var BASE = 23, CHARTER = 100;
+function fare(){ return st.charter ? CHARTER : BASE * st.pax; }
+var COUPONS = [
+  {id:'NEWUSER10', t:'ลด 10 บาท', d:'ขั้นต่ำ 20 บาท · ทุกพื้นที่บริการ', e:'หมดอายุ 30 พ.ย. 2569', s:'ok', min:20, v:function(){return 10;}},
+  {id:'OFFPEAK-NOV', t:'ส่วนลด 15 %', d:'เฉพาะช่วง off-peak · ลดสูงสุด 10 บาท', e:'หมดอายุ 30 พ.ย. 2569', s:'ok', v:function(f){return Math.min(10, f*0.15);}},
+  {id:'SAVE30', t:'ลด 30 บาท', d:'ขั้นต่ำ 60 บาท', e:'หมดอายุ 31 ธ.ค. 2569', s:'ok', min:60, v:function(){return 30;}},
+  {id:'VIP50', t:'ลด 50 บาท', d:'ขั้นต่ำ 100 บาท', e:'หมดอายุ 31 ม.ค. 2570', s:'ok', min:100, v:function(){return 50;}}
+];
+var LABEL = {ok:'ใช้ได้', used:'ใช้แล้ว', expired:'หมดอายุ', no:'ไม่เข้าเงื่อนไข'};
+var st = {view:'trip', applied:null, pax:1, charter:false};
+var app = document.getElementById('app');
+function m(x){ return String(Math.round(x)); }
+function find(id){ return COUPONS.filter(function(c){return c.id===id;})[0]; }
+function stat(c){ if (c.s==='used'||c.s==='expired') return c.s; return fare() >= (c.min||0) ? 'ok' : 'no'; }
+function why(c){ return 'ทริปนี้ '+m(fare())+' บาท ต่ำกว่าขั้นต่ำ '+c.min+' บาท'; }
+function disc(){ var c = st.applied && find(st.applied); return c ? Math.floor(Math.min(fare(), c.v(fare()))) : 0; }
+function toast(t){ var e=document.getElementById('toast'); e.textContent=t; e.classList.add('show'); clearTimeout(toast.h); toast.h=setTimeout(function(){e.classList.remove('show');},2200); }
+function steps(){
+  var n = st.view==='promo' ? 2 : (st.applied ? 3 : 1);
+  document.getElementById('steps').innerHTML = ['1 ข้อมูลทริป','2 โปรโมโค้ด','3 ใช้โค้ดแล้ว'].map(function(s,i){ return '<span class="'+(i+1===n?'on':'')+'">'+s+'</span>'; }).join('');
+}
+function trip(){
+  var d = disc(), c = st.applied && find(st.applied);
+  var row = c
+    ? '<span class="chip">'+c.id+' −'+m(d)+' ฿<button class="x" data-act="remove" aria-label="นำโค้ดออก">✕</button></span><button class="btn" data-act="open">เปลี่ยน</button>'
+    : '<button class="btn add" data-act="open"><i>+</i>เพิ่มโค้ด</button>';
+  return '<div class="hd"><button aria-label="ย้อนกลับ">‹</button>ข้อมูลทริป</div><div class="body">'
+    + '<div class="stops"><div class="rail"><u></u><s></s><u></u></div><div class="t"><p><b>รับที่</b>รถไฟฟ้าใต้ดินสนามไชย - มิวเซียมสยาม</p><p><b>ส่งที่</b>ม.ธรรมศาสตร์ (ประตูท่าพระจันทร์)</p></div></div>'
+    + '<div class="art">🛺</div><div class="type"><div class="mute">ประเภทรถ</div><span class="pillv"><span>รถธรรมดา</span><i>i</i></span></div>'
+    + '<div class="pax"><span>จำนวนผู้โดยสาร</span><span class="stepper"><button data-act="minus"'+(st.pax<=1?' disabled':'')+' aria-label="ลด">−</button>'+st.pax+'<button data-act="plus"'+(st.pax>=4?' disabled':'')+' aria-label="เพิ่ม">+</button></span></div>'
+    + '<div class="chk'+(st.charter?' on':'')+'" data-act="charter" role="checkbox" aria-checked="'+st.charter+'"><i>'+(st.charter?'✓':'')+'</i>เหมารถ</div>'
+    + '<div class="line"><span class="mute">โปรโมโค้ด</span><span>'+row+'</span></div>'
+    + '<div class="line"><span class="mute">การชำระเงิน</span><span>'+(d?'<s class="mute">'+m(fare())+' ฿</s> ':'')+'<span class="price">'+m(fare()-d)+' ฿</span></span></div></div>'
+    + '<button class="cta" data-act="pay">เรียกตุ๊กตุ๊ก</button><div class="home"><i></i></div>';
+}
+function promo(){
+  var ok = COUPONS.filter(function(x){return stat(x)==='ok';}).length;
+  var cards = COUPONS.map(function(c){
+    var s = stat(c); var body = '<div><span class="badge">'+LABEL[s]+'</span><div class="t">'+c.id+': '+c.t+'</div><small>'+c.d+'</small><small>'+c.e+'</small>'+(s==='no'?'<small>ไม่เข้าเงื่อนไข: '+why(c)+'</small>':'')+'</div>';
+    if (s==='ok') { var sel = st.applied===c.id; return '<div class="cp ok">'+body+'<button class="use'+(sel?' sel':'')+'" data-use="'+c.id+'">'+(sel?'ใช้อยู่ ✓':'ใช้')+'</button></div>'; }
+    return '<div class="cp off" aria-disabled="true">'+body+'</div>';
+  }).join('');
+  return '<div class="hd"><button data-act="back" aria-label="ย้อนกลับ">‹</button>โปรโมโค้ด</div><div class="body">'
+    + '<div class="ico">🎟️</div><div class="pad"><div style="font-weight:600">กรอกโปรโมโค้ด</div><div class="in"><input id="code" placeholder="โปรโมโค้ด" autocomplete="off"><button id="go">ใช้โค้ด</button></div></div>'
+    + '<div class="sec"><span>โค้ดส่วนลด</span><span class="mute" style="font-size:13px;font-weight:400">ใช้ได้ '+ok+' · ใช้ไม่ได้ '+(COUPONS.length-ok)+'</span></div>'
+    + '<div class="legend"><span><i style="border-color:var(--blue)"></i>กดเลือกได้</span><span><i style="border-color:var(--gray);background:var(--gray-t)"></i>กดไม่ได้</span></div>'
+    + '<div class="list">'+cards+'</div></div><div class="home"><i></i></div>';
+}
+function apply(id){ st.applied=id; st.view='trip'; render(); toast('ใช้โค้ด '+id+' กับการจองแล้ว'); }
+function render(){ var ap = st.applied && find(st.applied); if (ap && stat(ap)!=='ok') { st.applied=null; toast('โค้ด '+ap.id+' ไม่เข้าเงื่อนไขกับทริปนี้แล้ว'); } app.innerHTML = st.view==='promo' ? promo() : trip(); steps(); }
+app.addEventListener('input', function(e){ if (e.target.id==='code') document.getElementById('go').className = e.target.value.trim() ? 'on' : ''; });
+document.addEventListener('click', function(e){
+  var u = e.target.closest('[data-use]'), a = e.target.closest('[data-act]');
+  if (u) { apply(u.getAttribute('data-use')); return; }
+  if (e.target.id==='go') {
+    var v = document.getElementById('code').value.trim().toUpperCase(); if (!v) return;
+    var c = find(v);
+    if (!c) toast('ไม่พบโค้ดนี้'); else if (stat(c)!=='ok') toast(c.id+': '+LABEL[stat(c)]); else apply(c.id);
+    return;
+  }
+  if (!a) return;
+  var k = a.getAttribute('data-act');
+  if (k==='open') { st.view='promo'; render(); }
+  if (k==='back') { st.view='trip'; render(); }
+  if (k==='remove') { st.applied=null; render(); toast('นำโค้ดออกแล้ว'); }
+  if (k==='plus' && st.pax<4) { st.pax++; render(); }
+  if (k==='minus' && st.pax>1) { st.pax--; render(); }
+  if (k==='charter') { st.charter=!st.charter; render(); }
+  if (k==='pay') toast('ต้นแบบ: ยังไม่เชื่อมระบบจอง');
+});
+document.getElementById('reset').addEventListener('click', function(){ st={view:'trip',applied:null,pax:1,charter:false}; render(); });
+render();
+</script>
+</body>
+</html>
